@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Performance Analytics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" role="navigation">
+    <div class="logo">
+      <span class="logo-icon">🎓</span>
+      <div class="logo-text">
+        <h1>Student Performance</h1>
+        <p>Analytics Dashboard</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="nav-item active" data-tab="overview"><i class="ri-dashboard-line"></i>Overview</button>
+      <button class="nav-item" data-tab="performance"><i class="ri-bar-chart-2-line"></i>Performance</button>
+      <button class="nav-item" data-tab="students"><i class="ri-team-line"></i>Students</button>
+      <button class="nav-item" data-tab="predictor"><i class="ri-magic-line"></i>Predictor</button>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h2>Math Course Analysis System</h2>
+        <p>Monitor grades, attendance, and risk factors from PostgreSQL studentdb</p>
+      </div>
+      <a href="/api/export" class="btn primary" download><i class="ri-download-2-line"></i> Export Excel</a>
+    </header>
+
+    <!-- OVERVIEW TAB -->
+    <section class="tab active" id="overview">
+      <div class="cards">
+        <div class="stat-card"><p>Total Students</p><h3 id="total-students">0</h3></div>
+        <div class="stat-card"><p>Avg. Grade (G3)</p><h3 id="avg-grade">0</h3></div>
+        <div class="stat-card"><p>Success Rate</p><h3 id="success-rate">0%</h3></div>
+        <div class="stat-card"><p>Avg. Age</p><h3 id="avg-age">0</h3></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Final Grade Distribution (G3)</h3>
+          <canvas id="chart-final"></canvas>
+        </div>
+        <div class="card">
+          <h3>Student Gender Distribution</h3>
+          <canvas id="chart-gender"></canvas>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Weekly Study Time</h3>
+          <canvas id="chart-study"></canvas>
+        </div>
+        <div class="card">
+          <h3>Past Class Failures</h3>
+          <canvas id="chart-failures"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERFORMANCE TAB -->
+    <section class="tab" id="performance">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Grade Progression (G1 → G3)</h3>
+          <canvas id="chart-progression"></canvas>
+        </div>
+        <div class="card">
+          <h3>Absences vs Final Grade</h3>
+          <canvas id="chart-absence"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- STUDENTS TAB -->
+    <section class="tab" id="students">
+      <div class="card">
+        <div class="table-header">
+          <h3>Student Records</h3>
+          <input id="search" class="input" placeholder="Search by ID, school, or gender">
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>School</th><th>Gender</th><th>Age</th>
+                <th>Study Time</th><th>Failures</th><th>Absences</th>
+                <th>G1</th><th>G2</th><th>G3</th><th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="students-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PREDICTOR TAB -->
+    <section class="tab" id="predictor">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Grade Predictor</h3>
+          <form id="predict-form" class="form-grid">
+            <label>Age<input type="number" id="age" min="10" max="25" value="16" class="input"></label>
+            <label>Weekly Study Time<select id="study-time" class="input">
+              <option value="1">1–2 hours</option>
+              <option value="2" selected>2–5 hours</option>
+              <option value="3">5–10 hours</option>
+            </select></label>
+            <label>G1<input type="range" id="g1" min="0" max="20" value="10"><span id="g1-val">10</span></label>
+            <label>G2<input type="range" id="g2" min="0" max="20" value="10"><span id="g2-val">10</span></label>
+            <label>Failures<input type="range" id="failures" min="0" max="4" value="0"><span id="failures-val">0</span></label>
+            <label>Absences<input type="range" id="absences" min="0" max="15" value="0"><span id="absences-val">0</span></label>
+            <button type="submit" class="btn primary full">Predict Final Grade</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Prediction Result</h3>
+          <div class="prediction-box">
+            <p class="pred-label">Predicted Final Grade (G3)</p>
+            <p class="pred-value" id="pred-grade">--</p>
+            <p class="pred-status" id="pred-status">Fill the form and click predict.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

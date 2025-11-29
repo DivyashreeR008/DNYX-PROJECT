@@ -1,0 +1,40 @@
+-- 1️⃣ Drop the table if it exists (optional, for clean setup)
+DROP TABLE IF EXISTS students;
+
+-- 2️⃣ Create the students table
+CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    school VARCHAR(10),
+    gender CHAR(1),
+    age INT,
+    study VARCHAR(20),
+    failures INT,
+    absences INT,
+    g1 INT,
+    g2 INT,
+    g3 INT
+);
+
+-- 3️⃣ Insert realistic student data
+INSERT INTO students (school, gender, age, study, failures, absences, g1, g2, g3)
+VALUES
+('GP', 'F', 17, '1-2h', 0, 4, 14, 15, 15),
+('GP', 'M', 18, '2-5h', 1, 10, 12, 13, 14),
+('MS', 'F', 16, '5-10h', 0, 2, 16, 16, 17),
+('MS', 'M', 17, '2-5h', 0, 6, 11, 12, 11),
+('GP', 'F', 18, '5-10h', 0, 1, 17, 18, 18),
+('GP', 'M', 17, '1-2h', 2, 12, 10, 11, 9),
+('MS', 'F', 19, '2-5h', 1, 8, 13, 14, 13),
+('MS', 'M', 18, '1-2h', 0, 3, 12, 12, 13),
+('GP', 'F', 17, '2-5h', 0, 5, 15, 16, 15),
+('GP', 'M', 16, '5-10h', 0, 0, 16, 17, 16);
+
+-- 4️⃣ Verify the inserted data
+SELECT * FROM students;
+
+
+
+we need to install 
+pip install openpyxl
+pip install scikit-learn
+pip install numpy
